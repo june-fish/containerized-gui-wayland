@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-minimal:37
+FROM registry.fedoraproject.org/fedora-minimal:40
 RUN microdnf install -y --setopt install_weak_deps=0 busybox spice-html5 python3-websockify novnc weston labwc sway wayvnc dbus-daemon procps-ng foot wofi bemenu google-noto-naskh-arabic-fonts dejavu-fonts-all ; microdnf clean all 
 
 RUN mkdir /opt/busybox; \
