@@ -1,5 +1,13 @@
-FROM registry.fedoraproject.org/fedora-minimal:40
-RUN microdnf install -y --setopt install_weak_deps=0 busybox spice-html5 python3-websockify novnc weston labwc sway wayvnc dbus-daemon procps-ng foot wofi bemenu google-noto-naskh-arabic-fonts dejavu-fonts-all ; microdnf clean all 
+FROM registry.fedoraproject.org/fedora-minimal:43
+RUN microdnf install -y --setopt install_weak_deps=0 busybox python3-websockify novnc weston labwc sway wayvnc dbus-daemon procps-ng foot wofi bemenu google-noto-naskh-arabic-fonts dejavu-fonts-all ; microdnf clean all 
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1443989
+RUN microdnf install -y tar gzip make
+RUN curl -O https://gitlab.freedesktop.org/spice/spice-html5/-/archive/master/spice-html5-master.tar.gz?ref_type=heads
+RUN tar xvf spice-html5-master.tar.gz
+RUN pushd spice-html5-master && make install && popd
+RUN rm -rf spice-html5-master*
+RUN microdnf remove -y tar gzip make
 
 RUN mkdir /opt/busybox; \
     /sbin/busybox --install -s /opt/busybox
