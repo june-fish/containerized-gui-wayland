@@ -1,9 +1,14 @@
 FROM registry.fedoraproject.org/fedora-minimal:40
 RUN microdnf install -y --setopt install_weak_deps=0 busybox spice-html5 python3-websockify novnc weston labwc sway wayvnc dbus-daemon procps-ng foot wofi bemenu google-noto-naskh-arabic-fonts dejavu-fonts-all ; microdnf clean all 
+RUN curl --proto '=https' --tlsv1.2 -sSf -L https://install.lix.systems/lix | sh -s -- install linux \
+  --extra-conf "sandbox = false" \
+  --enable-flakes \
+  --init none \
+  --no-confirm
 
 RUN mkdir /opt/busybox; \
     /sbin/busybox --install -s /opt/busybox
-ENV PATH=/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/busybox
+ENV PATH=/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/busybox:/nix/var/nix/profiles/default/bin
 RUN cp /usr/share/weston/background.png /usr/share/backgrounds/default.png ; \
     busybox adduser -D app ; \
     busybox passwd -l app ; \
